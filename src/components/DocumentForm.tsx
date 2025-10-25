@@ -27,7 +27,7 @@ interface FormField {
 }
 
 const getFormFields = (typeId: string): FormField[] => {
-  const commonFields = {
+  const commonFields: Record<string, FormField[]> = {
     // ---------------- SALE DEED ----------------
     "sale-deed": [
       { id: "executionDate", label: { en: "Execution Date", ta: "செயல்பாடு தேதி" }, type: "date", required: true, section: "execution" },
@@ -190,6 +190,100 @@ const getFormFields = (typeId: string): FormField[] => {
       { id:"witness1Name", label:{en:"Witness 1 Name", ta:"சாட்சி 1 பெயர்"}, type:"text", required:true, section:"witnesses" },
       { id:"witness2Name", label:{en:"Witness 2 Name", ta:"சாட்சி 2 பெயர்"}, type:"text", required:true, section:"witnesses" }
     ],
+
+    // ---------------- GENERAL POWER OF AUTHORITY ----------------
+    "general-power-of-authority": [
+      { id:"executionDate", label:{en:"Execution Date", ta:"செயல்பாடு தேதி"}, type:"date", required:true, placeholder:{en:"mm/dd/yyyy", ta:"மாதம்/நாள்/ஆண்டு"}, section:"execution" },
+      { id:"place", label:{en:"Place", ta:"இடம்"}, type:"text", required:true, section:"execution" },
+      { id:"principalName", label:{en:"Principal Name", ta:"முதன்மை (அளிப்பவர்) பெயர்"}, type:"text", required:true, section:"principal" },
+      { id:"principalFatherName", label:{en:"Principal Father's Name", ta:"முதன்மை தந்தையின் பெயர்"}, type:"text", required:true, section:"principal" },
+      { id:"principalPermanentAddress", label:{en:"Permanent Address", ta:"நிரந்தர முகவரி"}, type:"textarea", required:true, section:"principal" },
+      { id:"principalCurrentAddress", label:{en:"Current Address", ta:"தற்போதைய முகவரி"}, type:"textarea", required:true, section:"principal" },
+      { id:"principalAge", label:{en:"Principal Age", ta:"முதன்மை வயது"}, type:"number", required:true, section:"principal" },
+      { id:"principalOccupation", label:{en:"Principal Occupation", ta:"முதன்மை தொழில்"}, type:"text", required:true, section:"principal" },
+      { id:"principalContact", label:{en:"Principal Contact Number", ta:"முதன்மை தொடர்பு எண்"}, type:"text", required:true, section:"principal" },
+      { id:"primaryAttorneyName", label:{en:"Primary Attorney Name", ta:"முதன்மை அமைச்சர் பெயர்"}, type:"text", required:true, section:"attorney" },
+      { id:"primaryAttorneyFatherName", label:{en:"Primary Attorney Father's Name", ta:"முதன்மை அமைச்சர் தந்தையின் பெயர்"}, type:"text", required:true, section:"attorney" },
+      { id:"primaryAttorneyCurrentAddress", label:{en:"Primary Attorney Current Address", ta:"முதன்மை அமைச்சர் தற்போதைய முகவரி"}, type:"textarea", required:true, section:"attorney" },
+      { id:"primaryAttorneyAge", label:{en:"Primary Attorney Age", ta:"முதன்மை அமைச்சர் வயது"}, type:"number", required:true, section:"attorney" },
+      { id:"primaryAttorneyOccupation", label:{en:"Primary Attorney Occupation", ta:"முதன்மை அமைச்சர் தொழில்"}, type:"text", required:true, section:"attorney" },
+      { id:"primaryAttorneyContact", label:{en:"Primary Attorney Contact Number", ta:"முதன்மை அமைச்சர் தொடர்பு எண்"}, type:"text", required:true, section:"attorney" },
+      { id:"alternateAttorneyName", label:{en:"Alternate Attorney Name", ta:"மாற்று அமைச்சர் பெயர்"}, type:"text", required:false, section:"alternate-attorney" },
+      { id:"relationship", label:{en:"Relationship", ta:"உறவுமுறை"}, type:"select", required:false, section:"relationship",
+        options:[
+          {value:"wife_of", label:{en:"Wife of", ta:"மனைவி"}},
+          {value:"husband_of", label:{en:"Husband of", ta:"கணவர்"}},
+          {value:"son_of", label:{en:"Son of", ta:"மகன்"}},
+          {value:"daughter_of", label:{en:"Daughter of", ta:"மகள்"}},
+          {value:"other", label:{en:"Other", ta:"மற்றவை"}}
+        ]},
+      { id:"husbandName", label:{en:"Husband's Name", ta:"கணவர் பெயர்"}, type:"text", required:false, section:"relationship" },
+      { id:"husbandAddress", label:{en:"Address", ta:"முகவரி"}, type:"textarea", required:false, section:"relationship" },
+      { id:"manageProperty", label:{en:"To manage and look after my movable and immovable properties", ta:"எனது நகரக்கூடிய மற்றும் நகர இயலாத சொத்துகளை நிர்வகிக்க மற்றும் பார்த்துக்கொள்ள"}, type:"radio", required:false, section:"powers" },
+      { id:"buySellProperty", label:{en:"To buy, sell, lease, mortgage, or otherwise deal with property", ta:"சொத்தை வாங்க, விற்க, குத்தகை, கடன், அல்லது வேறு வழியில் கையாள"}, type:"radio", required:false, section:"powers" },
+      { id:"appearOffices", label:{en:"To appear before government offices, registrars, or courts", ta:"அரசு அலுவலகங்கள், பதிவாளர்கள் அல்லது நீதிமன்றங்களில் தோற்றமளிக்க"}, type:"radio", required:false, section:"powers" },
+      { id:"operateBank", label:{en:"To operate bank accounts, sign cheques, and handle financial matters", ta:"வங்கி கணக்குகளை இயக்க, காசோலைகளில் கையெழுத்திட, மற்றும் நிதி விவகாரங்களை கையாள"}, type:"radio", required:false, section:"powers" },
+      { id:"signDocuments", label:{en:"To sign and execute documents, deeds, and agreements", ta:"ஆவணங்கள், பத்திரங்கள் மற்றும் ஒப்பந்தங்களில் கையெழுத்திட மற்றும் செயல்படுத்த"}, type:"radio", required:false, section:"powers" },
+      { id:"representLegal", label:{en:"To represent me in any legal, personal, or business matter", ta:"எந்தவொரு சட்ட, தனிப்பட்ட அல்லது வணிக விவகாரத்திலும் என்னை பிரதிநிதித்துவப்படுத்த"}, type:"radio", required:false, section:"powers" },
+      { id:"otherPowers", label:{en:"Any other specific power(s)", ta:"வேறு எந்தவொரு குறிப்பிட்ட அதிகாரம்(கள்)"}, type:"textarea", required:false, section:"powers" },
+      { id:"durationType", label:{en:"Duration Type", ta:"காலம் வகை"}, type:"select", required:true, section:"duration",
+        options:[
+          {value:"until_revoked", label:{en:"Until revoked by me in writing", ta:"என்னால் எழுத்துப்பூர்வமாக ரத்து செய்யப்படும் வரை"}},
+          {value:"specific_period", label:{en:"Valid for specific period", ta:"குறிப்பிட்ட காலத்திற்கு செல்லுபடியாகும்"}}
+        ]},
+      { id:"durationStartDate", label:{en:"Duration Start Date", ta:"காலம் தொடக்க தேதி"}, type:"date", required:false, section:"duration" },
+      { id:"durationEndDate", label:{en:"Duration End Date", ta:"காலம் முடிவு தேதி"}, type:"date", required:false, section:"duration" },
+      { id:"witness1Name", label:{en:"Witness 1 Name", ta:"சாட்சி 1 பெயர்"}, type:"text", required:true, section:"witnesses" },
+      { id:"witness1Address", label:{en:"Witness 1 Address", ta:"சாட்சி 1 முகவரி"}, type:"textarea", required:true, section:"witnesses" },
+      { id:"witness2Name", label:{en:"Witness 2 Name", ta:"சாட்சி 2 பெயர்"}, type:"text", required:true, section:"witnesses" },
+      { id:"witness2Address", label:{en:"Witness 2 Address", ta:"சாட்சி 2 முகவரி"}, type:"textarea", required:true, section:"witnesses" },
+      { id:"identifyingOfficerName", label:{en:"Identifying Officer Name", ta:"அடையாளம் காணும் அதிகாரி பெயர்"}, type:"text", required:false, section:"officer" },
+      { id:"notaryPublicName", label:{en:"Notary Public Name", ta:"நோட்டரி பொது பெயர்"}, type:"text", required:false, section:"officer" },
+      { id:"scheduleI", label:{en:"Schedule I", ta:"அட்டவணை I"}, type:"textarea", required:false, section:"schedule" },
+      { id:"scheduleII", label:{en:"Schedule II", ta:"அட்டவணை II"}, type:"textarea", required:false, section:"schedule" }
+    ],
+
+    // ---------------- BUILDER BUYER AGREEMENT ----------------
+    "builder-buyer-agreement": [
+      { id:"agreementDate", label:{en:"Agreement Date", ta:"ஒப்பந்த தேதி"}, type:"date", required:true, section:"parties" },
+      { id:"builderName", label:{en:"Builder/Developer Name", ta:"கட்டிடக்காரர்/வளர்ச்சியாளர் பெயர்"}, type:"text", required:true, section:"parties" },
+      { id:"builderAddress", label:{en:"Builder Address", ta:"கட்டிடக்காரர் முகவரி"}, type:"textarea", required:true, section:"parties" },
+      { id:"buyerName", label:{en:"Buyer Name", ta:"வாங்குபவர் பெயர்"}, type:"text", required:true, section:"parties" },
+      { id:"buyerAddress", label:{en:"Buyer Address", ta:"வாங்குபவர் முகவரி"}, type:"textarea", required:true, section:"parties" },
+      { id:"projectName", label:{en:"Project Name", ta:"திட்டத்தின் பெயர்"}, type:"text", required:true, section:"project" },
+      { id:"projectAddress", label:{en:"Project Address", ta:"திட்ட முகவரி"}, type:"textarea", required:true, section:"project" },
+      { id:"unitDetails", label:{en:"Unit Details (Flat No., Area, etc.)", ta:"அலகு விவரங்கள் (அடுக்குமாடி எண், பரப்பளவு போன்றவை)"}, type:"textarea", required:true, section:"project" },
+      { id:"totalPrice", label:{en:"Total Price (₹)", ta:"மொத்த விலை (₹)"}, type:"number", required:true, section:"price" },
+      { id:"advancePaid", label:{en:"Advance/Token (₹)", ta:"முன்பணம் (₹)"}, type:"number", required:true, section:"price" },
+      { id:"paymentSchedule", label:{en:"Payment Schedule", ta:"கட்டண அட்டவணை"}, type:"textarea", required:true, section:"price" },
+      { id:"completionDate", label:{en:"Project Completion Date", ta:"திட்ட நிறைவு தேதி"}, type:"date", required:true, section:"completion" },
+      { id:"possessionDate", label:{en:"Possession Date", ta:"ஆக்கிரமிப்பு தேதி"}, type:"date", required:true, section:"completion" },
+      { id:"witness1Name", label:{en:"Witness 1 Name", ta:"சாட்சி 1 பெயர்"}, type:"text", required:true, section:"witnesses" },
+      { id:"witness2Name", label:{en:"Witness 2 Name", ta:"சாட்சி 2 பெயர்"}, type:"text", required:true, section:"witnesses" }
+    ],
+
+    // ---------------- MUTATION LEGAL DOCUMENT ----------------
+    "mutation-legal-document": [
+      { id:"applicationDate", label:{en:"Application Date", ta:"விண்ணப்ப தேதி"}, type:"date", required:true, section:"application" },
+      { id:"applicantName", label:{en:"Applicant Name", ta:"விண்ணப்பதாரர் பெயர்"}, type:"text", required:true, section:"applicant" },
+      { id:"applicantAddress", label:{en:"Applicant Address", ta:"விண்ணப்பதாரர் முகவரி"}, type:"textarea", required:true, section:"applicant" },
+      { id:"propertyAddress", label:{en:"Property Address", ta:"சொத்து முகவரி"}, type:"textarea", required:true, section:"property" },
+      { id:"surveyNumber", label:{en:"Survey Number", ta:"ஆய்வு எண்"}, type:"text", required:true, section:"property" },
+      { id:"landArea", label:{en:"Area/Measurement", ta:"பரப்பளவு/அளவீடு"}, type:"text", required:true, section:"property" },
+      { id:"mutationReason", label:{en:"Reason for Mutation", ta:"மாற்றத்திற்கான காரணம்"}, type:"select", required:true, section:"mutation",
+        options:[
+          {value:"sale", label:{en:"Sale/Transfer", ta:"விற்பனை/பரிமாற்றம்"}},
+          {value:"inheritance", label:{en:"Inheritance", ta:"பரம்பரை"}},
+          {value:"gift", label:{en:"Gift", ta:"பரிசு"}},
+          {value:"court_order", label:{en:"Court Order", ta:"நீதிமன்ற உத்தரவு"}},
+          {value:"other", label:{en:"Other", ta:"மற்றவை"}}
+        ]},
+      { id:"previousOwner", label:{en:"Previous Owner Name", ta:"முந்தைய உரிமையாளர் பெயர்"}, type:"text", required:true, section:"ownership" },
+      { id:"newOwner", label:{en:"New Owner Name", ta:"புதிய உரிமையாளர் பெயர்"}, type:"text", required:true, section:"ownership" },
+      { id:"supportingDocuments", label:{en:"Supporting Documents", ta:"ஆதரவு ஆவணங்கள்"}, type:"textarea", required:true, placeholder:{en:"List documents like sale deed, death certificate, etc.", ta:"விற்பனை பத்திரம், இறப்பு சான்றிதழ் போன்ற ஆவணங்களை பட்டியலிடு"}, section:"documents" },
+      { id:"witness1Name", label:{en:"Witness 1 Name", ta:"சாட்சி 1 பெயர்"}, type:"text", required:true, section:"witnesses" },
+      { id:"witness2Name", label:{en:"Witness 2 Name", ta:"சாட்சி 2 பெயர்"}, type:"text", required:true, section:"witnesses" }
+    ],
   };
 
   return commonFields[typeId as keyof typeof commonFields] || [];
@@ -306,6 +400,31 @@ const DocumentForm = ({ selectedType, language, onFormDataChange }: DocumentForm
       { id: "property", title: { en: "JOINT PROPERTY", ta: "கூட்டு சொத்து" } },
       { id: "shares", title: { en: "ALLOCATION OF SHARES", ta: "பங்கீடு" } },
       { id: "witnesses", title: { en: "WITNESSES", ta: "சாட்சிகள்" } }
+    ] : selectedType === "general-power-of-authority" ? [
+      { id: "execution", title: { en: "EXECUTION DETAILS", ta: "செயல்பாடு விவரங்கள்" } },
+      { id: "principal", title: { en: "DETAILS OF THE PRINCIPAL", ta: "முதன்மை விவரங்கள்" } },
+      { id: "attorney", title: { en: "DETAILS OF THE ATTORNEY", ta: "அமைச்சர் விவரங்கள்" } },
+      { id: "alternate-attorney", title: { en: "ALTERNATE ATTORNEY", ta: "மாற்று அமைச்சர்" } },
+      { id: "relationship", title: { en: "RELATIONSHIP", ta: "உறவுமுறை" } },
+      { id: "powers", title: { en: "PURPOSE / POWERS GRANTED", ta: "நோக்கம் / வழங்கப்படும் அதிகாரங்கள்" } },
+      { id: "duration", title: { en: "DURATION OF POWER", ta: "அதிகாரத்தின் காலம்" } },
+      { id: "witnesses", title: { en: "WITNESSES", ta: "சாட்சிகள்" } },
+      { id: "officer", title: { en: "OFFICER", ta: "அதிகாரி" } },
+      { id: "schedule", title: { en: "SCHEDULE", ta: "அட்டவணை" } }
+    ] : selectedType === "builder-buyer-agreement" ? [
+      { id: "parties", title: { en: "PARTIES", ta: "தரப்பினர்" } },
+      { id: "project", title: { en: "PROJECT DETAILS", ta: "திட்ட விவரங்கள்" } },
+      { id: "price", title: { en: "PRICE & PAYMENT", ta: "விலை & கட்டணம்" } },
+      { id: "completion", title: { en: "COMPLETION", ta: "நிறைவு" } },
+      { id: "witnesses", title: { en: "WITNESSES", ta: "சாட்சிகள்" } }
+    ] : selectedType === "mutation-legal-document" ? [
+      { id: "application", title: { en: "APPLICATION DETAILS", ta: "விண்ணப்ப விவரங்கள்" } },
+      { id: "applicant", title: { en: "APPLICANT INFORMATION", ta: "விண்ணப்பதாரர் தகவல்" } },
+      { id: "property", title: { en: "PROPERTY DETAILS", ta: "சொத்து விவரங்கள்" } },
+      { id: "mutation", title: { en: "MUTATION REASON", ta: "மாற்ற காரணம்" } },
+      { id: "ownership", title: { en: "OWNERSHIP CHANGE", ta: "உரிமை மாற்றம்" } },
+      { id: "documents", title: { en: "SUPPORTING DOCUMENTS", ta: "ஆதரவு ஆவணங்கள்" } },
+      { id: "witnesses", title: { en: "WITNESSES", ta: "சாட்சிகள்" } }
     ] : [];
 
   const getFieldsBySection = (sectionId: string) =>
@@ -387,85 +506,89 @@ const DocumentForm = ({ selectedType, language, onFormDataChange }: DocumentForm
 
   return (
     <div className="flex-1 p-6 bg-gradient-subtle overflow-y-auto">
-      <Card className="max-w-2xl mx-auto legal-card animate-fade-in">
-        <CardHeader className="text-center">
-          <CardTitle className={cn(
-            "text-2xl font-bold uppercase tracking-wide mb-2",
-            language === "ta" && "font-tamil"
-          )}>
-            {documentType?.name[language]}
-          </CardTitle>
-          <CardDescription className={cn(
-            "text-sm font-medium",
-            language === "ta" ? "font-tamil" : ""
-          )}>
-            {documentType?.description[language]}
-          </CardDescription>
-        </CardHeader>
+      <div className="space-y-6">
+        <Card className="max-w-2xl mx-auto legal-card animate-fade-in">
+          <CardHeader className="text-center">
+            <CardTitle className={cn(
+              "text-2xl font-bold uppercase tracking-wide mb-2",
+              language === "ta" && "font-tamil"
+            )}>
+              {documentType?.name[language]}
+            </CardTitle>
+            <CardDescription className={cn(
+              "text-sm font-medium",
+              language === "ta" ? "font-tamil" : ""
+            )}>
+              {documentType?.description[language]}
+            </CardDescription>
+          </CardHeader>
 
-        <CardContent className="space-y-8">
-          {sections.length > 0 ? (
-            sections.map((section) => {
-              const sectionFields = getFieldsBySection(section.id);
-              if (sectionFields.length === 0) return null;
-              return (
-                <div key={section.id} className="space-y-4">
-                  <div className="border-b pb-2">
-                    <h3 className={cn(
-                      "text-lg font-bold uppercase tracking-wide text-foreground",
-                      language === "ta" && "font-tamil"
-                    )}>
-                      {section.title[language]}
-                    </h3>
+          <CardContent className="space-y-8">
+            {sections.length > 0 ? (
+              sections.map((section) => {
+                const sectionFields = getFieldsBySection(section.id);
+                if (sectionFields.length === 0) return null;
+                return (
+                  <div key={section.id} className="space-y-4">
+                    <div className="border-b pb-2">
+                      <h3 className={cn(
+                        "text-lg font-bold uppercase tracking-wide text-foreground",
+                        language === "ta" && "font-tamil"
+                      )}>
+                        {section.title[language]}
+                      </h3>
+                    </div>
+                    <div className="grid grid-cols-1 gap-4">
+                      {sectionFields.map((field) => (
+                        <div key={field.id} className="space-y-2">
+                          <Label htmlFor={field.id} className={cn("text-sm font-semibold", language === "ta" && "font-tamil")}>
+                            {field.label[language]}
+                            {field.required && <span className="text-destructive ml-1">*</span>}
+                          </Label>
+                          {renderField(field)}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 gap-4">
-                    {sectionFields.map((field) => (
-                      <div key={field.id} className="space-y-2">
-                        <Label htmlFor={field.id} className={cn("text-sm font-semibold", language === "ta" && "font-tamil")}>
-                          {field.label[language]}
-                          {field.required && <span className="text-destructive ml-1">*</span>}
-                        </Label>
-                        {renderField(field)}
-                      </div>
-                    ))}
-                  </div>
+                );
+              })
+            ) : (
+              formFields.map((field) => (
+                <div key={field.id} className="space-y-2">
+                  <Label htmlFor={field.id} className={cn("text-sm font-medium", language === "ta" && "font-tamil")}>
+                    {field.label[language]}
+                    {field.required && <span className="text-destructive ml-1">*</span>}
+                  </Label>
+                  {renderField(field)}
                 </div>
-              );
-            })
-          ) : (
-            formFields.map((field) => (
-              <div key={field.id} className="space-y-2">
-                <Label htmlFor={field.id} className={cn("text-sm font-medium", language === "ta" && "font-tamil")}>
-                  {field.label[language]}
-                  {field.required && <span className="text-destructive ml-1">*</span>}
-                </Label>
-                {renderField(field)}
-              </div>
-            ))
-          )}
+              ))
+            )}
 
-          {/* Validation alert */}
-          {isInvalid && (
-            <div className="flex items-start gap-3 p-3 rounded-md bg-amber-50 border border-amber-200">
-              <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5" />
-              <div className={cn("text-sm text-amber-800", language === "ta" && "font-tamil")}>
-                {language === "en" ? "Please fill the required fields: " : "தயவுசெய்து தேவையான புலங்களை நிரப்பவும்: "}
-                {requiredMissing.slice(0, 3).map(f => f.label[language]).join(", ")}
-                {requiredMissing.length > 3 ? " …" : ""}
+            {/* Validation alert */}
+            {isInvalid && (
+              <div className="flex items-start gap-3 p-3 rounded-md bg-amber-50 border border-amber-200">
+                <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5" />
+                <div className={cn("text-sm text-amber-800", language === "ta" && "font-tamil")}>
+                  {language === "en" ? "Please fill the required fields: " : "தயவுசெய்து தேவையான புலங்களை நிரப்பவும்: "}
+                  {requiredMissing.slice(0, 3).map(f => f.label[language]).join(", ")}
+                  {requiredMissing.length > 3 ? " …" : ""}
+                </div>
               </div>
+            )}
+
+            <div className="pt-2">
+              <Button className="w-full legal-gradient text-white font-semibold py-3" disabled={isInvalid}>
+                <Download className="h-4 w-4 mr-2" />
+                <span className={language === "ta" ? "font-tamil" : ""}>
+                  {language === "en" ? "Generate Document" : "ஆவணத்தை உருவாக்கவும்"}
+                </span>
+              </Button>
             </div>
-          )}
+          </CardContent>
+        </Card>
+      </div>
 
-          <div className="pt-2">
-            <Button className="w-full legal-gradient text-white font-semibold py-3" disabled={isInvalid}>
-              <Download className="h-4 w-4 mr-2" />
-              <span className={language === "ta" ? "font-tamil" : ""}>
-                {language === "en" ? "Generate Document" : "ஆவணத்தை உருவாக்கவும்"}
-              </span>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+
     </div>
   );
 };

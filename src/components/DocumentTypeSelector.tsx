@@ -74,6 +74,27 @@ export const documentTypes: DocumentType[] = [
     icon: Users,
     category: "Business",
   },
+  {
+    id: "general-power-of-authority",
+    name: { en: "General Power of Authority", ta: "பொதுவான அதிகாரப் பத்திரம்" },
+    description: { en: "General legal authority delegation", ta: "பொதுவான சட்டப்பூர்வ அதிகார பரிமாற்றம்" },
+    icon: Shield,
+    category: "Legal",
+  },
+  {
+    id: "builder-buyer-agreement",
+    name: { en: "Builder Buyer Agreement", ta: "கட்டிடக்காரர் வாங்குபவர் ஒப்பந்தம்" },
+    description: { en: "Agreement between builder and buyer", ta: "கட்டிடக்காரர் மற்றும் வாங்குபவர் இடையேயான ஒப்பந்தம்" },
+    icon: Handshake,
+    category: "Property",
+  },
+  {
+    id: "mutation-legal-document",
+    name: { en: "Mutation Legal Document", ta: "மாற்றம் சட்ட ஆவணம்" },
+    description: { en: "Legal document for property mutation", ta: "சொத்து மாற்றத்திற்கான சட்ட ஆவணம்" },
+    icon: Scroll,
+    category: "Legal",
+  },
 ];
 
 /* ===== Component ===== */

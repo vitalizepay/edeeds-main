@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Eye, Download, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { documentTypes } from "./DocumentTypeSelector";
@@ -500,10 +502,92 @@ SIGNED:
 WITNESSES:
 1) ${d.witness1Name || "____________"}   2) ${d.witness2Name || "____________"}
 `.trim(),
+
+    "general-power-of-authority": `
+GENERAL POWER OF ATTORNEY
+
+This General Power of Attorney is executed on ${d.executionDate || "________"}.
+
+PRINCIPAL: ${d.principalName || "________________"}, ${d.principalAddress || "________________"} ("Principal").
+ATTORNEY: ${d.attorneyName || "________________"}, ${d.attorneyAddress || "________________"} ("Attorney").
+
+WHEREAS the Principal desires to appoint the Attorney to act for and on behalf of the Principal in all matters generally.
+
+NOW THIS INSTRUMENT WITNESSETH:
+1. POWERS GRANTED. The Attorney is authorized to do all acts and things necessary for the management and protection of the Principal's affairs, including but not limited to:
+   (a) Manage and operate bank accounts, receive payments, and issue receipts.
+   (b) Buy, sell, lease, mortgage, or otherwise deal with property.
+   (c) Execute contracts, agreements, and legal documents.
+   (d) Represent the Principal before government authorities and courts.
+   (e) Collect debts, rents, and other monies due to the Principal.
+   (f) Pay bills, taxes, and other obligations.
+2. NATURE. This Power is general and irrevocable unless otherwise specified.
+3. RATIFICATION. The Principal ratifies all lawful acts of the Attorney.
+4. REVOCATION. This Power may be revoked by written notice from the Principal.
+
+SIGNED:
+Principal: _____________________    Attorney: _____________________
+
+WITNESSES:
+1) ${d.witness1Name || "____________"}   2) ${d.witness2Name || "____________"}
+`.trim(),
+
+    "builder-buyer-agreement": `
+BUILDER BUYER AGREEMENT
+
+This Agreement is made on ${d.agreementDate || "________"} between:
+Builder: ${d.builderName || "________________"}, ${d.builderAddress || "________________"} ("Builder").
+Buyer: ${d.buyerName || "________________"}, ${d.buyerAddress || "________________"} ("Buyer").
+
+1. PROJECT. The Builder agrees to construct and deliver ${d.projectDescription || "________"} ("Project") at ${d.projectLocation || "________"}.
+2. UNIT. Buyer agrees to purchase Unit No. ${d.unitNumber || "________"} in the Project, measuring ${d.unitArea || "________"} sq.ft., for a total consideration of INR ${d.totalPrice || "________"}/-.
+3. PAYMENT SCHEDULE. Buyer shall pay as follows: ${d.paymentSchedule || "________"}.
+4. COMPLETION. The Project shall be completed by ${d.completionDate || "________"}. Builder shall provide occupation certificate and necessary approvals.
+5. POSSESSION. Possession shall be handed over upon full payment and completion.
+6. DELAYS. In case of delay beyond ${d.delayPeriod || "________"} days, Buyer shall be entitled to compensation at the rate of INR ${d.delayCompensation || "________"} per day.
+7. DEFAULT. If Buyer defaults, Builder may forfeit earnest money; if Builder defaults, Buyer may seek specific performance or refund with interest.
+8. FORCE MAJEURE. Parties shall not be liable for delays due to unforeseen circumstances.
+9. LAW. Governed by the laws of India.
+
+SIGNED:
+Builder: _______________________   Buyer: _______________________
+
+WITNESSES:
+1) ${d.witness1Name || "____________"}   2) ${d.witness2Name || "____________"}
+`.trim(),
+
+    "mutation-legal-document": `
+MUTATION LEGAL DOCUMENT
+
+This Mutation Document is executed on ${d.executionDate || "________"}.
+
+APPLICANT: ${d.applicantName || "________________"}, ${d.applicantAddress || "________________"} ("Applicant").
+AUTHORITY: ${d.authorityName || "________________"}, ${d.authorityAddress || "________________"} ("Authority").
+
+WHEREAS the Applicant is the rightful owner of the property described in the SCHEDULE.
+WHEREAS the Applicant seeks mutation of the property in his/her name in the revenue records.
+
+NOW THIS DOCUMENT WITNESSETH:
+1. APPLICATION. The Applicant hereby applies for mutation of the property in his/her name.
+2. DETAILS. The property is located at ${d.propertyAddress || "________"}, Survey No. ${d.surveyNumber || "________"}, measuring ${d.propertyArea || "________"} sq.ft.
+3. DOCUMENTS SUBMITTED. The Applicant submits the following documents: ${d.submittedDocuments || "________"}.
+4. APPROVAL. The Authority approves the mutation subject to verification of documents and payment of fees.
+5. EFFECT. Upon mutation, the property shall be recorded in the name of the Applicant.
+6. FEES. Mutation fees amounting to INR ${d.mutationFees || "________"}/- shall be paid.
+7. LAW. Governed by the relevant state revenue laws.
+
+SIGNED:
+Applicant: _____________________    Authority: _____________________
+
+WITNESSES:
+1) ${d.witness1Name || "____________"}   2) ${d.witness2Name || "____________"}
+`.trim(),
+
+
   };
 
   const ta = {
-    /* Tamil templates — unchanged from your last message (already use colon labels so they’re bold) */
+    /* Tamil templates with escaped $ to prevent template literal interpolation */
     "sale-deed": `
 விற்பனை பத்திரம்
 
@@ -728,6 +812,83 @@ ${d.familyPropertyDesc || "________"}
 சாட்சிகள்:
 1) ${d.witness1Name || "____________"}   2) ${d.witness2Name || "____________"}
 `.trim(),
+
+    "general-power-of-authority": `
+பொதுவான அதிகாரப் பத்திரம்
+
+${d.executionDate || "________"} அன்று செய்யப்பட்டது.
+
+முதன்மை: ${d.principalName || "________________"}, முகவரி: ${d.principalAddress || "________________"}.
+முகவர்: ${d.attorneyName || "________________"}, முகவரி: ${d.attorneyAddress || "________________"}.
+
+எனினும்: முதன்மை தம் அனைத்து விவகாரங்களிலும் முகவரை நியமிக்க விரும்புகிறார்.
+
+இதனால்:
+1. வழங்கப்பட்ட அதிகாரங்கள்: முகவருக்கு முதன்மையின் விவகாரங்களை நிர்வகிப்பதற்கும் பாதுகாப்பதற்கும் தேவையான அனைத்து செயல்களும் அதிகாரங்கள் வழங்கப்படுகின்றன, குறிப்பாக:
+   (அ) வங்கி கணக்குகளை நிர்வகித்தல் மற்றும் செயல்படுத்துதல், தொகைகளைப் பெறுதல் மற்றும் ரசீது வழங்குதல்.
+   (ஆ) சொத்துகளை விற்பனை செய்தல், குத்தகை செய்தல், பிணை செய்தல் அல்லது பிற முறையில் கையாளுதல்.
+   (இ) ஒப்பந்தங்கள், ஒப்பந்தங்கள் மற்றும் சட்ட ஆவணங்களை செயல்படுத்துதல்.
+   (ஈ) அரசு அதிகாரிகள் மற்றும் நீதிமன்றங்களுக்கு முன் முதன்மையைப் பிரதிநிதித்துவப்படுத்துதல்.
+   (உ) முதன்மைக்கு உரிய கடன்கள், வாடகைகள் மற்றும் பிற தொகைகளை வசூலித்தல்.
+   (ஊ) முதன்மையின் கடமைகள் மற்றும் பிற கடமைகளை செலுத்துதல்.
+2. தன்மை: இந்த அதிகாரப்பத்திரம் பொதுவானது மற்றும் ரத்து செய்ய இயலாதது.
+3. ஒப்புதல்: முதன்மை முகவரின் அனைத்து சட்டப்பூர்வ செயல்களையும் ஒப்புக்கொள்கிறார்.
+4. ரத்து: இந்த அதிகாரப்பத்திரத்தை எழுத்துப்பூர்வமாக ரத்து செய்யலாம்.
+
+கையெழுத்து:
+முதன்மை: _____________  முகவர்: _____________
+
+சாட்சிகள்:
+1) ${d.witness1Name || "____________"}   2) ${d.witness2Name || "____________"}
+`.trim(),
+
+    "builder-buyer-agreement": `
+கட்டிடக்காரர் வாங்குபவர் ஒப்பந்தம்
+
+${d.agreementDate || "________"} அன்று செய்யப்பட்டது.
+
+கட்டிடக்காரர்: ${d.builderName || "________________"}, முகவரி: ${d.builderAddress || "________________"}.
+வாங்குபவர்: ${d.buyerName || "________________"}, முகவரி: ${d.buyerAddress || "________________"}.
+
+1. திட்டம்: கட்டிடக்காரர் ${d.projectDescription || "________"} ("திட்டம்") என்ற திட்டத்தை ${d.projectLocation || "________"} இல் கட்டி முடித்து ஒப்படைக்க ஒப்புக்கொள்கிறார்.
+2. அலகு: வாங்குபவர் திட்டத்தில் ${d.unitNumber || "________"} என்ற அலகை வாங்க ஒப்புக்கொள்கிறார், இது ${d.unitArea || "________"} சதுர அடி அளவு கொண்டது, மொத்த மதிப்பு ரூ. ${d.totalPrice || "________"}/-.
+3. கட்டண அட்டவணை: வாங்குபவர் பின்வரும் வகையில் கட்டணம் செலுத்த வேண்டும்: ${d.paymentSchedule || "________"}.
+4. நிறைவு: திட்டம் ${d.completionDate || "________"} அன்று நிறைவடையும். கட்டிடக்காரர் ஆக்கிரமிப்பு சான்றிதழ் மற்றும் தேவையான அனுமதிகளை வழங்குவார்.
+5. பிடிப்பு: முழு கட்டணம் மற்றும் நிறைவு நிலையில் பிடிப்பு ஒப்படைக்கப்படும்.
+6. தாமதம்: நிறைவில் ${d.delayPeriod || "________"} நாள் தாமதம் ஏற்பட்டால், வாங்குபவருக்கு ரூ. ${d.delayCompensation || "________"}/- ஒரு நாளுக்கு இழப்பீடு வழங்கப்படும்.
+7. தவறு: வாங்குபவர் தவறினால், கட்டிடக்காரர் முன்பணத்தைப் பறிமுதல் செய்யலாம்; கட்டிடக்காரர் தவறினால், வாங்குபவர் சிறப்பான செயல்திறன் அல்லது வட்டியுடன் பணத்தைத் திருப்பி கோரலாம்.
+8. இயற்கை பேரழிவு: எதிர்பாராத சம்பவங்கள் காரணமாக தாமதம் ஏற்பட்டால் எந்த தரப்பும் பொறுப்பல்ல.
+9. சட்டம்: இந்திய சட்டங்கள் இதற்கு பொருந்தும்.
+
+கையெழுத்து:
+கட்டிடக்காரர்: _____________  வாங்குபவர்: _____________
+
+சாட்சிகள்:
+1) ${d.witness1Name || "____________"}   2) ${d.witness2Name || "____________"}
+`.trim(),
+
+    "mutation-legal-document": (
+"மாற்றம் சட்ட ஆவணம்\n" +
+(d.executionDate || "________") + " அன்று செய்யப்பட்டது.\n" +
+"விண்ணப்பதாரர்: " + (d.applicantName || "________________") + ", முகவரி: " + (d.applicantAddress || "________________") + ".\n" +
+"அதிகாரி: " + (d.authorityName || "________________") + ", முகவரி: " + (d.authorityAddress || "________________") + ".\n" +
+"எனினும்: விண்ணப்பதாரர் அட்டவணையில் விவரிக்கப்பட்ட சொத்தின் சட்டப்பூர்வ உரிமையாளர்.\n" +
+"எனினும்: விண்ணப்பதாரர் தம் பெயரில் வருவாய் பதிவுகளில் சொத்தை மாற்றம் செய்ய விரும்புகிறார்.\n" +
+"இதனால்:\n" +
+"1. விண்ணப்பம்: விண்ணப்பதாரர் தம் பெயரில் சொத்தை மாற்றம் செய்ய விண்ணப்பிக்கிறார்.\n" +
+"2. விவரங்கள்: சொத்து " + (d.propertyAddress || "________") + " இல் அமைந்துள்ளது, ஆய்வு எண் " + (d.surveyNumber || "________") + ", " + (d.propertyArea || "________") + " சதுர அடி அளவு கொண்டது.\n" +
+"3. சமர்ப்பிக்கப்பட்ட ஆவணங்கள்: விண்ணப்பதாரர் பின்வரும் ஆவணங்களை சமர்ப்பிக்கிறார்: " + (d.submittedDocuments || "________") + ".\n" +
+"4. ஒப்புதல்: ஆவணங்கள் சரிபார்க்கப்பட்டு கட்டணம் செலுத்தப்பட்ட பிறகு அதிகாரி மாற்றத்தை ஒப்புக்கொள்கிறார்.\n" +
+"5. விளைவு: மாற்றத்திற்கு பிறகு சொத்து விண்ணப்பதாரின் பெயரில் பதிவு செய்யப்படும்.\n" +
+"6. கட்டணம்: மாற்ற கட்டணம் ரூ. " + (d.mutationFees || "________") + "/- செலுத்தப்பட வேண்டும்.\n" +
+"7. சட்டம்: தொடர்புடைய மாநில வருவாய் சட்டங்கள் இதற்கு பொருந்தும்.\n" +
+"கையெழுத்து:\n" +
+"விண்ணப்பதாரர்: _____________  அதிகாரி: _____________\n" +
+"சாட்சிகள்:\n" +
+"1) " + (d.witness1Name || "____________") + "   2) " + (d.witness2Name || "____________") + "\n"
+).trim(),
+
+
   };
 
   const bank = language === "ta" ? ta : en;
@@ -740,6 +901,8 @@ const DocumentPreview = ({
   formData,
   language,
 }: DocumentPreviewProps) => {
+  const [isFullPreviewOpen, setIsFullPreviewOpen] = useState(false);
+
   const documentContent = selectedType
     ? generateDocumentContent(selectedType, formData, language)
     : "";
@@ -748,7 +911,7 @@ const DocumentPreview = ({
     ? documentTypes.find((doc) => doc.id === selectedType)
     : null;
 
-  /* =================== PDF with bold headings + labels =================== */
+  /* =================== PDF with bold headings + labels (English only) =================== */
   const handleDownloadPDF = () => {
     if (!documentContent.trim()) return;
 
@@ -780,11 +943,11 @@ const DocumentPreview = ({
 
       if (!titlePrinted && t) {
         ensurePage();
-        doc.setFont(undefined, "bold");
+        if (language === "en") doc.setFont(undefined, "bold");
         doc.setFontSize(baseSize + 4);
         doc.text(t, left + maxWidth / 2, y, { align: "center" as any });
         y += lineGap + 4;
-        doc.setFont(undefined, "normal");
+        if (language === "en") doc.setFont(undefined, "normal");
         doc.setFontSize(baseSize);
         titlePrinted = true;
         continue;
@@ -794,10 +957,10 @@ const DocumentPreview = ({
       const num = extractNumberedHeading(line);
       if (num) {
         ensurePage();
-        doc.setFont(undefined, "bold");
+        if (language === "en") doc.setFont(undefined, "bold");
         doc.text(num.prefix, left, y);
         const prefixW = doc.getTextWidth(num.prefix + " ");
-        doc.setFont(undefined, "normal");
+        if (language === "en") doc.setFont(undefined, "normal");
         const restChunks = doc.splitTextToSize(num.rest || " ", maxWidth - prefixW);
         doc.text(restChunks, left + prefixW, y);
         y += lineGap * (restChunks.length || 1);
@@ -809,22 +972,22 @@ const DocumentPreview = ({
 
       if (heading) {
         ensurePage();
-        doc.setFont(undefined, "bold");
+        if (language === "en") doc.setFont(undefined, "bold");
         const chunks = doc.splitTextToSize(line || " ", maxWidth);
         doc.text(chunks, left, y);
         y += lineGap * chunks.length;
-        doc.setFont(undefined, "normal");
+        if (language === "en") doc.setFont(undefined, "normal");
         continue;
       }
 
       if (inline) {
         ensurePage();
-        doc.setFont(undefined, "bold");
+        if (language === "en") doc.setFont(undefined, "bold");
         const labelText = inline.label + ": ";
         doc.text(labelText, left, y);
         const labelWidth = doc.getTextWidth(labelText);
 
-        doc.setFont(undefined, "normal");
+        if (language === "en") doc.setFont(undefined, "normal");
         const restChunks = doc.splitTextToSize(inline.rest || " ", maxWidth - labelWidth);
         doc.text(restChunks, left + labelWidth, y);
         y += lineGap * restChunks.length;
@@ -841,7 +1004,7 @@ const DocumentPreview = ({
     doc.save(fileName);
   };
 
-  /** ===== DOCX: bold headings + inline labels + numbered headings ===== */
+  /** ===== DOCX: bold headings + inline labels + numbered headings (English only) ===== */
   const TAMIL_DOCX_FONT = "Nirmala UI";
   const EN_DOCX_FONT = "Calibri";
 
@@ -865,10 +1028,9 @@ const DocumentPreview = ({
               children: [
                 new TextRun({
                   text: t,
-                  bold: true,
+                  bold: language === "en",
                   size: 32,
                   font: baseFont,
-                  complexScript: isTA,
                 }),
               ],
               heading: HeadingLevel.TITLE,
@@ -888,16 +1050,14 @@ const DocumentPreview = ({
               children: [
                 new TextRun({
                   text: num.prefix + " ",
-                  bold: true,
+                  bold: language === "en",
                   size: 24,
                   font: baseFont,
-                  complexScript: isTA,
                 }),
                 new TextRun({
                   text: num.rest || " ",
                   size: 24,
                   font: baseFont,
-                  complexScript: isTA,
                 }),
               ],
             })
@@ -911,10 +1071,9 @@ const DocumentPreview = ({
               children: [
                 new TextRun({
                   text: raw || " ",
-                  bold: true,
+                  bold: language === "en",
                   size: 24,
                   font: baseFont,
-                  complexScript: isTA,
                 }),
               ],
             })
@@ -928,16 +1087,14 @@ const DocumentPreview = ({
               children: [
                 new TextRun({
                   text: inline.label + ": ",
-                  bold: true,
+                  bold: language === "en",
                   size: 24,
                   font: baseFont,
-                  complexScript: isTA,
                 }),
                 new TextRun({
                   text: inline.rest || " ",
                   size: 24,
                   font: baseFont,
-                  complexScript: isTA,
                 }),
               ],
             })
@@ -952,7 +1109,6 @@ const DocumentPreview = ({
                 text: raw || " ",
                 size: 24,
                 font: baseFont,
-                complexScript: isTA,
               }),
             ],
           })
@@ -998,7 +1154,54 @@ const DocumentPreview = ({
 
   /* ==================== PREVIEW render ==================== */
   const previewLines = documentContent.split("\n");
-  let previewTitlePrinted = false;
+
+  const renderPreviewContent = (isFull: boolean) => {
+    let titlePrinted = false;
+    return previewLines.map((raw, idx) => {
+      const t = (raw ?? "").trim();
+
+      if (!titlePrinted && t) {
+        titlePrinted = true;
+        return (
+          <p key={`${isFull ? 'full' : 'main'}-${idx}`} className="font-extrabold text-center mb-2">
+            {boldValuesInline(t, formData)}
+          </p>
+        );
+      }
+
+      const num = extractNumberedHeading(raw);
+      const heading = isHeadingLine(t, language);
+      const inline = matchInlineLabel(raw, language);
+
+      if (num) {
+        return (
+          <p key={`${isFull ? 'full' : 'main'}-${idx}`}>
+            <strong className="font-bold">{num.prefix}</strong>{" "}
+            {boldValuesInline(num.rest, formData)}
+          </p>
+        );
+      }
+
+      if (heading) {
+        return (
+          <p key={`${isFull ? 'full' : 'main'}-${idx}`} className="font-bold">
+            {boldValuesInline(raw, formData)}
+          </p>
+        );
+      }
+
+      if (inline) {
+        return (
+          <p key={`${isFull ? 'full' : 'main'}-${idx}`}>
+            <strong className="font-bold">{inline.label}:</strong>{" "}
+            {boldValuesInline(inline.rest, formData)}
+          </p>
+        );
+      }
+
+      return <p key={`${isFull ? 'full' : 'main'}-${idx}`}>{boldValuesInline(raw, formData)}</p>;
+    });
+  };
 
   return (
     <div className="h-full flex flex-col bg-gradient-card">
@@ -1033,51 +1236,9 @@ const DocumentPreview = ({
                 "text-sm leading-7 text-gray-800 text-left",
                 language === "ta" && "font-tamil text-base"
               )}
+              style={language === "ta" ? { fontFamily: "'Noto Sans Tamil', 'Inter', sans-serif" } : undefined}
             >
-              {previewLines.map((raw, idx) => {
-                const t = (raw ?? "").trim();
-
-                if (!previewTitlePrinted && t) {
-                  previewTitlePrinted = true;
-                  return (
-                    <p key={idx} className="font-extrabold text-center mb-2">
-                      {boldValuesInline(t, formData)}
-                    </p>
-                  );
-                }
-
-                const num = extractNumberedHeading(raw);
-                const heading = isHeadingLine(t, language);
-                const inline = matchInlineLabel(raw, language);
-
-                if (num) {
-                  return (
-                    <p key={idx}>
-                      <strong className="font-bold">{num.prefix}</strong>{" "}
-                      {boldValuesInline(num.rest, formData)}
-                    </p>
-                  );
-                }
-
-                if (heading) {
-                  return (
-                    <p key={idx} className="font-bold">
-                      {boldValuesInline(raw, formData)}
-                    </p>
-                  );
-                }
-
-                if (inline) {
-                  return (
-                    <p key={idx}>
-                      <strong className="font-bold">{inline.label}:</strong>{" "}
-                      {boldValuesInline(inline.rest, formData)}
-                    </p>
-                  );
-                }
-
-                return <p key={idx}>{boldValuesInline(raw, formData)}</p>;
-              })}
+              {renderPreviewContent(false)}
             </div>
           </CardContent>
         </Card>
@@ -1085,15 +1246,41 @@ const DocumentPreview = ({
 
       {/* Actions */}
       <div className="flex-shrink-0 border-t bg-card p-4 space-y-3">
-        <Button
-          className="w-full bg-gradient-subtle hover:bg-gradient-primary text-foreground hover:text-white shadow-xl hover-scale transition-smooth"
-          disabled={!documentContent.trim()}
-        >
-          <Eye className="h-4 w-4 mr-2" />
-          <span className={cn("font-medium", language === "ta" && "font-tamil")}>
-            {language === "en" ? "Full Preview" : "முழு முன்னோட்டம்"}
-          </span>
-        </Button>
+        <Dialog open={isFullPreviewOpen} onOpenChange={setIsFullPreviewOpen}>
+          <DialogTrigger asChild>
+            <Button
+              className="w-full bg-gradient-subtle hover:bg-gradient-primary text-foreground hover:text-white shadow-xl hover-scale transition-smooth"
+              disabled={!documentContent.trim()}
+            >
+              <Eye className="h-4 w-4 mr-2" />
+              <span className={cn("font-medium", language === "ta" && "font-tamil")}>
+                {language === "en" ? "Full Preview" : "முழு முன்னோட்டம்"}
+              </span>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className={cn(language === "ta" && "font-tamil")}>
+                {docType?.name[language]} - {language === "en" ? "Full Preview" : "முழு முன்னோட்டம்"}
+              </DialogTitle>
+            </DialogHeader>
+            <div className="mt-4">
+              <Card className="bg-white border-0">
+                <CardContent className="p-8">
+                  <div
+                    className={cn(
+                      "text-sm leading-7 text-gray-800 text-left",
+                      language === "ta" && "font-tamil text-base"
+                    )}
+                    style={language === "ta" ? { fontFamily: "'Noto Sans Tamil', 'Inter', sans-serif" } : undefined}
+                  >
+                    {renderPreviewContent(true)}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </DialogContent>
+        </Dialog>
 
         <Button
           className="w-full legal-gradient text-white shadow-xl hover-scale transition-smooth"
